@@ -38,3 +38,20 @@ Benefits that come with distributed systems:
 - Horizontal scalability
 - Lower latency increased performance
 - Cost-effective
+
+## Performance metrics for system design:
+
+- Scalability: Bad design can introduce some set of bottlenecks for scaling a system and it affects the volume of the data or the number of requests that a system can handle. In other words, we should be able to scale a system with a minimum amount of performance loss
+- Reliability: An arbitrary indicator for this factor could be measuring the mean time between failures: `MTBF = (Total elapsed time - Total downtime) / number of failures`, in this case, bigger MTBFs designate the more sustainable system
+- Availability: A poorly design system not going to available from time to time, a simple way to calculate availability is: `Availability time = (Overall available time / Whole-time) * 100`, You can compensate for more availability by increasing the redundancy. 99.999% available system is kinda bottom line of industry-standard and it is equivalent to 5 minutes and 15 seconds down time in one year:
+
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/RD0wyYg/audin59table.png" alt="audin59table" border="0"></a>
+
+Reliable vs available:
+A reliable system is always an available system
+Availability can be maintained by redundancy, but the system may not be reliable
+You can think of an airplane to compare this to factor if the airplane needs maintenance it could be replaced with another one and the service going to be always available but for the plane, one thing that you wanna is to make sure plane is always reliable cuz once that plane's in the air you do not want a failure.
+
+- Efficiency: Describes how efficient a system perform, often used metrics are system latency and throughput
+
+- Manageability: Examples of the factors that impact system manageability are: Observability, the ability to be able to spot a bug or track a certain action, Speed and difficulty that involves maintaining the system, Difficulty of deploying the updates, etc.

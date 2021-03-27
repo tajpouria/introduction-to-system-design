@@ -50,8 +50,57 @@ Benefits that come with distributed systems:
 Reliable vs available:
 A reliable system is always an available system
 Availability can be maintained by redundancy, but the system may not be reliable
-You can think of an airplane to compare this to factor if the airplane needs maintenance it could be replaced with another one and the service going to be always available but for the plane, one thing that you wanna is to make sure plane is always reliable cuz once that plane's in the air you do not want a failure.
+You can think of an airplane to compare this to factor if the airplane needs maintenance it could be replaced with another one and the service going to be always available but for the plane, one thing that you wanna do is to make sure plane is always reliable cuz once that plane's in the air you do not want a failure.
 
 - Efficiency: Describes how efficient a system perform, often used metrics are system latency and throughput
 
 - Manageability: Examples of the factors that impact system manageability are: Observability, the ability to be able to spot a bug or track a certain action, Speed and difficulty that involves maintaining the system, Difficulty of deploying the updates, etc.
+
+## Quick math for capacity estimates
+
+Here's an example data access latency in compare to each other:
+
+<a href="https://ibb.co/2kRr93V"><img src="https://i.ibb.co/71BDftM/Screenshot-from-2021-03-27-10-09-00.png" alt="Screenshot-from-2021-03-27-10-09-00" border="0"></a>
+
+Latency key takeaways:
+
+- Avoid network call as much as possible by storing frequently accessed data locally
+- Replicate data across multiple data center for disaster reconvey as well as improving performance
+- Use CDNs to reduce latency
+- Keep frequently accessed data in the memory if that's possible instead of seeking from disk
+
+Basic conversions:
+
+- 8 bit = 1 byte, 1024 byte = 1 kilobyte, 1025 kilobyte = 1 megabyte, 1024 megabyte = 1 gigabyte, 1024 gigabyte = 1 terabyte
+- Char = 1 bytes, Integer = 4 bytes, UNIX timestamp = 4 bytes
+- 60 seconds \* 60 minutes = 3_600 seconds per hour, 3_600 seconds \* 25 hours = 86_400 seconds per day, 86_400 seconds \* 30 days = 2_500_000 seconds per month
+
+Estimation example: Let's say we've we need a photo hosting system with 10 million daily active user, which in average every day each user reads 30 photo and writes 1 photo.
+
+Traffic:
+
+- 10 million daily active user \* 30 photo read per day = 300 million photo read per day
+- 10 million daily active user \* 1 photo write per day = 10 million photo write per day
+
+=>
+
+- 300 million photo read per day / 86_400 seconds per day ~= 3472 photo read per seconds
+- 10 million photo write per day / 86_400 seconds per day ~= 115 photo write per seconds
+
+Memory:
+
+- (300 million photo read per day \* 500 byte each photo size) / 1024\*\*3 (to gigabyte) ~= 150 gigabyte
+- 150 gigabyte \* 0.2 (Only of the 80-20 rule only 20% percent of the photos needs to be highly accessible) ~= 30 gigabyte
+- 50 gigabyte \* 3 replication ~= 90 gigabyte
+
+Bandwidth:
+
+- (300 million photo read per day \* 1.5 megabyte each request size) / 1024 (to gigabyte) ~= 450_000 gigabyte
+- 450_000 gigabyte / 86_400 seconds per day = 5.2 gigabyte per second (In the real world, rarely applications going experience a steady flow with the same rate, instead there's going to be a lot of peaks)
+
+Storage:
+
+- (10 million photo write per day \* 1.5 megabyte each photo) / 1024\*\*2 = 15 terabytes per day
+- 15 terabytes \* 365 days each year \* 10 years = 55 petabyte each ten years
+
+## Horizontal vs vertical scaling

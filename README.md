@@ -90,7 +90,7 @@ Traffic:
 Memory:
 
 - (300 million photo read per day \* 500 byte each photo size) / 1024\*\*3 (to gigabyte) ~= 150 gigabyte
-- 150 gigabyte \* 0.2 (Only of the 80-20 rule only 20% percent of the photos needs to be highly accessible) ~= 30 gigabyte
+- 150 gigabyte \* 0.2 (Based on the 80-20 rule only 20% percent of the photos needs to be highly accessible) ~= 30 gigabyte
 - 50 gigabyte \* 3 replication ~= 90 gigabyte
 
 Bandwidth:
